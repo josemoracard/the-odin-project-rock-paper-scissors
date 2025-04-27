@@ -39,9 +39,17 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let playerScore = 0;
     let computerScore = 0;
+    const validChoices = ["rock", "paper", "scissors"];
 
     while (playerScore < 3 && computerScore < 3) {
-        const playerSelection = prompt("Enter your choice: rock, paper, or scissors: ");
+        let playerSelection = prompt("Enter your choice: rock, paper, or scissors: ");
+
+        // Validar la entrada
+        while (!validChoices.includes(playerSelection)) {
+            console.log("Invalid choice! Please type 'rock', 'paper', or 'scissors'.");
+            playerSelection = prompt("Enter your choice: rock, paper, or scissors: ").toLowerCase();
+        }
+
         const computerSelection = getComputerChoice();
         const result = playRound(playerSelection, computerSelection);
 
