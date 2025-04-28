@@ -34,41 +34,44 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    const validChoices = ["rock", "paper", "scissors"];
+// Here we manage the game state
+let playerScore = 0;
+let computerScore = 0;
 
-    while (playerScore < 3 && computerScore < 3) {
-        let playerSelection = prompt("Enter your choice: rock, paper, or scissors: ").toLowerCase();
-
-        // Validar la entrada
-        while (!validChoices.includes(playerSelection)) {
-            console.log("Invalid choice! Please type 'rock', 'paper', or 'scissors'.");
-            playerSelection = prompt("Enter your choice: rock, paper, or scissors: ").toLowerCase();
-        }
-
-        const computerSelection = getComputerChoice();
-        const result = playRound(playerSelection, computerSelection);
-
-        console.log(result);
-
-        if (result.includes('win')) {
-            playerScore++;
-        } else if (result.includes('lose')) {
-            computerScore++;
-        }
-    }
-
-    console.log("Game over!");
-
-    if (playerScore > computerScore) {
-        console.log("You win the game!");
-    } else {
-        console.log("You lose the game!");
-    }
-
-    console.log(`Final Score - You: ${playerScore}, Computer: ${computerScore}`);
+function updateResult(message) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.textContent = message + ` (Score: You ${playerScore} - ${computerScore} Computer)`;
 }
 
-game();
+function checkWinner() {
+    if (playerScore === 5 || computerScore === 5) {
+        const finalMessage = playerScore > computerScore ? "🎉 You win the game!" : "😞 You lose the game!";
+        updateResult(finalMessage);
+        // Disable buttons after game over
+        document.getElementById('rock').disabled = true;
+        document.getElementById('paper').disabled = true;
+        document.getElementById('scissors').disabled = true;
+    }
+}
+
+// Event listener for player's buttons
+function handleClick(playerSelection) {
+    const computerSelection = getComputerChoice();
+    const result = playRound(playerSelection, computerSelection);
+
+    console.log(result); // Also logs it in console
+
+    if (result.includes('win')) {
+        playerScore++;
+    } else if (result.includes('lose')) {
+        computerScore++;
+    }
+
+    updateResult(result);
+    checkWinner();
+}
+
+// Add event listeners to buttons
+document.getElementById('rock').addEventListener('click', () => handleClick('rock'));
+document.getElementById('paper').addEventListener('click', () => handleClick('paper'));
+document.getElementById('scissors').addEventListener('click', () => handleClick('scissors'));
