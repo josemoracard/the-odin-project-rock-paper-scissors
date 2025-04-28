@@ -1,5 +1,3 @@
-const prompt = require ("prompt-sync")({sigint: true})
-
 function getComputerChoice() {
     let randomN = Math.floor(Math.random() * 3)
     let computerChoise = ''
@@ -42,7 +40,7 @@ function game() {
     const validChoices = ["rock", "paper", "scissors"];
 
     while (playerScore < 3 && computerScore < 3) {
-        let playerSelection = prompt("Enter your choice: rock, paper, or scissors: ");
+        let playerSelection = prompt("Enter your choice: rock, paper, or scissors: ").toLowerCase();
 
         // Validar la entrada
         while (!validChoices.includes(playerSelection)) {
